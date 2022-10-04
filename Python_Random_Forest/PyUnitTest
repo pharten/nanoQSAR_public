@@ -1,0 +1,8 @@
+For tutorial on PyUnit, Unittest see https://www.youtube.com/watch?v=6tNS--WetLI and view
+https://stackoverflow.com/questions/41399825/how-to-run-pytest-on-eclipse
+
+Windows preferences has to be set up for PyDev. If Pytest is used, the tester in PyUnit
+has to be assigned to Py.test runner.
+1) Goto tab Window, Preferences
+2) Goto PyDev, PyUnit
+3) In PyUnit window, Test Runner is set to Py.test runner
