@@ -41,7 +41,7 @@ def main():
     #yearPub = 2014
     #yearPub = 2017
 
-    input_file = "..\\data\\assay_all_vw_out_22325rows.csv"
+    input_file = "data\\assay_all_vw_out_22325rows.csv"
     output_DifferentValues = "data\\inVitro_Columns_with_Different_Values.csv"
     output_ProcessedData = "data\\InVitro_ProcessedData.csv"
     
