@@ -62,7 +62,7 @@ def write_to_csv(df, file_output):
     #df.replace({None,'Null'}).to_csv(file_output, encoding = 'utf-8-sig', index = False)
     
         # Print message to console indicating that writing to CSV has completed.
-    print("Writing of " + file_output + " to a CSV file has completed.")
+    #print("Writing of " + file_output + " to a CSV file has completed.")
 
 def replace_null_with_none(df):
     '''
