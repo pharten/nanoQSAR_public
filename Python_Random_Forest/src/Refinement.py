@@ -9,6 +9,7 @@ Created on Oct 29, 2020
 
 from DeconcatenationProcess import deconcatenationProcess
 from MiddleProcesses import middleProcesses
+from FinalProcesses import finalProcesses
 #from Replace_Null_with_None import replace_null_with_none
 #from Write_to_CSV import write_to_csv
 #from Delete_Concatenated_Columns import delete_concatenated_columns
@@ -42,11 +43,6 @@ def main():
     #yearPub = 2017
 
     input_file = "data\\assay_all_vw_out_22325rows.csv"
-    output_DifferentValues = "data\\inVitro_Columns_with_Different_Values.csv"
-    output_ProcessedData = "data\\InVitro_ProcessedData.csv"
-    
-    output_Desired_Rows = "data\\Desired_Results_Rows.csv"
-    output_NonEmptyColumns_Desired_Rows = "data\\Desired_Results_Rows_NonEmptyColumns.csv"
     output_Multivariate_Imputed_Values = "data\\Multivariate_Imputed_Numerical_Columns.csv"
     
     # initial processes only, translate concatenated data
@@ -55,18 +51,8 @@ def main():
     # middle processes only, translate units into most common
     df = middleProcesses(desired_result, coreComp, yearPub, df)
     
-    # Encode categorical data
-    df = encode_categorical_columns(df)
-
-    # Delete columns with the same value
-    df = delete_columns_with_all_equal_values(df)
-    
-    # Delete columns with the same value
-    df = delete_columns_with_units(df)
-    
-    # Impute missing data of numerical columns.
-    # df = impute_missing_data_of_numerical_columns(df)
-    df = iteratively_impute_numerical_columns(desired_result, df)
+    # final processes only, translate units into most common
+    df = finalProcesses(desired_result, df)
     
     # Write imputed DataFrame to a CSV file
     write_to_csv(df, output_Multivariate_Imputed_Values)
