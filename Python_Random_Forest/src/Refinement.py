@@ -43,55 +43,29 @@ def main():
     #yearPub = 2017
 
     input_file = "data\\assay_all_vw_out_22325rows.csv"
-    output_Multivariate_Imputed_Values = "data\\Multivariate_Imputed_Numerical_Columns.csv"
+    output_file = "data\\Multivariate_Imputed_Numerical_Columns.csv"
+    
+    df = refinement(assayType, desired_result, coreComp, yearPub, input_file, output_file)
+
+    print("Refinement Complete")
+
+    
+def refinement(assayType, desiredResult, coreComp, yearPub, inputFile, outputFile):
     
     # initial processes only, translate concatenated data
-    df = deconcatenationProcess(input_file, assayType)
+    df = deconcatenationProcess(inputFile, assayType)
     
     # middle processes only, translate units into most common
-    df = middleProcesses(desired_result, coreComp, yearPub, df)
+    df = middleProcesses(desiredResult, coreComp, yearPub, df)
     
     # final processes only, translate units into most common
-    df = finalProcesses(desired_result, df)
+    df = finalProcesses(desiredResult, df)
     
     # Write imputed DataFrame to a CSV file
-    write_to_csv(df, output_Multivariate_Imputed_Values)
-    
-    print("Refinement Complete")
-    
-def extract_desired_rows(desired_result, coreComp, yearPub, df):
-    column_name = desired_result+" result_value"
-    
-    #df1 = df.iloc[2062:2333].loc[df[column_name].isna() == False]
-    df1 = df.loc[df[column_name].isna() == False]
-    
-    # Reset the rows indices.
-    df1 = df1.reset_index(level = 0, drop = True)
-    
-    if desired_result=="expression levels":
-        df2 = df1.loc[df1[column_name]<10.0]
-        df2 = df2.reset_index(level = 0, drop = True)
-        if coreComp == "":
-            df1 = df2
-        else:
-            column_name = "CoreComposition_" + coreComp
-            df2 = df2.loc[df2[column_name]==1]
-            df2 = df2.reset_index(level = 0, drop = True)
-            df1 = df2
-            
-    if yearPub != "":
-        df1 = df1.loc[df1["year"]==yearPub]
-        df1 = df1.reset_index(level = 0, drop = True)
-    
-    return df1
-
-def delete_columns_with_units(df):
-
-    for column in df:
-        if ("_unit" in column or "Unit" in column):
-            df.drop(column, axis = 1, inplace = True)
+    write_to_csv(df, outputFile)
 
     return df
+
 
 if __name__ == "__main__":
     main()
