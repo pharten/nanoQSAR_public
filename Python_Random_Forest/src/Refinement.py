@@ -52,45 +52,23 @@ def main():
     # initial processes only, translate concatenated data
     df = deconcatenationProcess(input_file, assayType)
     
-    # Delete columns with the same value
-    #df = delete_columns_with_all_equal_values(df)
-    
-    # Write DataFrame to a CSV file.
-    #write_to_csv(df, output_DifferentValues)
-    
-    # Read CSV file back into the program.
-    #df = read_from_csv(output_DifferentValues)
-    
     # middle processes only, translate units into most common
     df = middleProcesses(desired_result, coreComp, yearPub, df)
-    
-    # Write DataFrame processed data
-    #write_to_csv(df, output_ProcessedData)
     
     # Encode categorical data
     df = encode_categorical_columns(df)
 
-    # Extract only the rows with viability results
-    #df = extract_desired_rows(desired_result, coreComp, yearPub, df)
-    
-    # Write DataFrame to CSV file.
-    #write_to_csv(df, output_Desired_Rows)
-    
     # Delete columns with the same value
     df = delete_columns_with_all_equal_values(df)
     
     # Delete columns with the same value
     df = delete_columns_with_units(df)
     
-    # Write DataFrame to CSV file
-    #write_to_csv(df, output_NonEmptyColumns_Desired_Rows)
-    
     # Impute missing data of numerical columns.
     # df = impute_missing_data_of_numerical_columns(df)
     df = iteratively_impute_numerical_columns(desired_result, df)
     
     # Write imputed DataFrame to a CSV file
-    # write_to_csv(df, output_Imputed_Values)
     write_to_csv(df, output_Multivariate_Imputed_Values)
     
     print("Refinement Complete")
