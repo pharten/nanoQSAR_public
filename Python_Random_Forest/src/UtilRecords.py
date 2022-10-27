@@ -6,6 +6,7 @@ Created on Nov 29, 2021
 
 import pandas as pd
 from pathlib import Path
+import os
 from numpy import NaN
 from pandas.tests.extension.test_external_block import df
 
@@ -63,6 +64,24 @@ def write_to_csv(df, file_output):
     
         # Print message to console indicating that writing to CSV has completed.
     #print("Writing of " + file_output + " to a CSV file has completed.")
+    
+def remove(filename):
+    '''
+    Name
+    ----
+    remove
+    
+    Description
+    -----------
+    This function removes a file with alternate possible pathways
+    
+    '''
+    # remove file
+    if Path(filename).exists(): os.remove(filename)
+    else:
+        filename = "..\\" + filename
+        if Path(filename).exists(): os.remove(filename)
+    
 
 def replace_null_with_none(df):
     '''

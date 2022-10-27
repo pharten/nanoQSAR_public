@@ -9,6 +9,7 @@ from Process_Units import process_data_units
 from Fix_Categorical_Data_Errors import fix_categorical_data_errors
 from Delete_Unwanted_Columns import delete_unwanted_columns
 from UtilRecords import read_from_csv, write_to_csv, replace_null_with_none
+import pandas as pd
 
 def middleProcesses(desired_result, coreComp, yearPub, df):
     '''
@@ -46,6 +47,7 @@ def middleProcesses(desired_result, coreComp, yearPub, df):
     
     # Extract only the rows with desired_result, coreComp, yearPub results
     df = extract_desired_rows(desired_result, coreComp, yearPub, df)
+    if (len(df.index)==0): return df
     
     # Write DataFrame to CSV file.
     #write_to_csv(df, output_Desired_Rows)
@@ -102,6 +104,9 @@ def delete_merged_columns(df):
 
 def extract_desired_rows(desired_result, coreComp, yearPub, df):
     column_name = desired_result+" result_value"
+    
+    # if columns_name not found return empty DataFrame
+    if column_name not in df.columns: return pd.DataFrame()
     
     #df1 = df.iloc[2062:2333].loc[df[column_name].isna() == False]
     df1 = df.loc[df[column_name].isna() == False]

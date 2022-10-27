@@ -22,8 +22,7 @@ from Encode_Categorical_Data import encode_categorical_columns
 #from Delete_Unwanted_Columns import delete_unwanted_columns
 from Impute_Numerical_Columns import impute_missing_data_of_numerical_columns
 from Perform_Multivariate_Imputation import iteratively_impute_numerical_columns
-from UtilRecords import read_from_csv, write_to_csv, delete_columns_with_all_equal_values
-import pandas
+from UtilRecords import write_to_csv, remove
 
 def main():
     assayType = "in vitro"
@@ -46,20 +45,27 @@ def main():
     output_file = "data\\Multivariate_Imputed_Numerical_Columns.csv"
     
     df = refinement(assayType, desired_result, coreComp, yearPub, input_file, output_file)
+    #print(len(df.index))
 
     print("Refinement Complete")
 
     
 def refinement(assayType, desiredResult, coreComp, yearPub, inputFile, outputFile):
     
+    # remove output file
+    remove(outputFile)
+        
     # initial processes only, translate concatenated data
     df = deconcatenationProcess(inputFile, assayType)
+    if (len(df.index)==0): return df
     
     # middle processes only, translate units into most common
     df = middleProcesses(desiredResult, coreComp, yearPub, df)
-    
+    if (len(df.index)==0): return df
+
     # final processes only, translate units into most common
     df = finalProcesses(desiredResult, df)
+    if (len(df.index)==0): return df
     
     # Write imputed DataFrame to a CSV file
     write_to_csv(df, outputFile)

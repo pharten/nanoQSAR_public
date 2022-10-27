@@ -22,13 +22,15 @@ def test_refinement1():
     #desired_result = "expression levels"
     
     # Core Compositions, if needed
-    coreComp = ""
+    coreComp1 = "no core"
+    coreComp2 = ""
     #coreComp = "titanium dioxide"
     #coreComp = "silicon dioxide"
     #coreComp = "cerium(iv) oxide"
     #coreComp = "copper(ii) oxide"
     
-    yearPub = ""
+    yearPub1 = "0000"
+    yearPub2 = ""
     #yearPub = 2014
     #yearPub = 2017
 
@@ -36,14 +38,24 @@ def test_refinement1():
     input_file2 = "data\\assay_all_vw_out_22325rows.csv"
     output_file = "data\\Multivariate_Imputed_Numerical_Columns.csv"
     
-    # Create DataFrame
-    #refinement(assayType, desired_result, coreComp, yearPub, input_file1, output_file)
-    
+    # Test exceptions
     with pytest.raises(FileNotFoundError):
-        assert refinement(assayType2, desired_result2, coreComp, yearPub, input_file1, output_file)
+        df = refinement(assayType2, desired_result2, coreComp2, yearPub2, input_file1, output_file)
+        assert df
+        
+    with pytest.raises(ValueError):
+        assert refinement(assayType1, desired_result2, coreComp2, yearPub2, input_file2, output_file)
 
-    df = refinement(assayType2, desired_result2, coreComp, yearPub, input_file2, output_file)
-    assert df.size == 22325
+    with pytest.raises(ValueError):
+        assert refinement(assayType2, desired_result1, coreComp2, yearPub2, input_file2, output_file)
+    
+    with pytest.raises(ValueError):
+        assert refinement(assayType2, desired_result2, coreComp1, yearPub2, input_file2, output_file)
+    
+    with pytest.raises(ValueError):
+        assert refinement(assayType2, desired_result2, coreComp2, yearPub1, input_file2, output_file)
+    
+    #assert len(df.index) == 22325
     # Process units
     #assert df['front scatter result_value'][0] == 1.01
     #assert df['front scatter result_value'][1] == 0.9
@@ -52,33 +64,32 @@ def test_refinement1():
 def test_refinement2():
     # Create data
     
-    assayType1 = "nego in vitro"
     assayType2 = "in vitro"
     
-    desired_result1 = "not desired"
     desired_result2 = "viability"
     #desired_result = "expression levels"
     
     # Core Compositions, if needed
-    coreComp = ""
+    coreComp2 = ""
     #coreComp = "titanium dioxide"
     #coreComp = "silicon dioxide"
     #coreComp = "cerium(iv) oxide"
     #coreComp = "copper(ii) oxide"
     
-    yearPub = ""
+    yearPub2 = ""
     #yearPub = 2014
     #yearPub = 2017
 
-    input_file1 = "data\\not_there.csv"
     input_file2 = "data\\assay_all_vw_out_22325rows.csv"
     output_file = "data\\Multivariate_Imputed_Numerical_Columns.csv"
     
     # Create DataFrame
     #refinement(assayType, desired_result, coreComp, yearPub, input_file1, output_file)
     
-    with pytest.raises(KeyError):
-        assert refinement(assayType1, desired_result2, coreComp, yearPub, input_file2, output_file)
+    df = refinement(assayType2, desired_result2, coreComp2, yearPub2, input_file2, output_file)
+    
+    assert(len(df.index) == 435)
+
         
 def tes_refinement3():
     # Create data
@@ -135,25 +146,22 @@ def tes_refinement3():
 def tes_refinement4():
     # Create data
     
-    assayType1 = "nego in vitro"
     assayType2 = "in vitro"
     
-    desired_result1 = "not desired"
     desired_result2 = "viability"
     #desired_result = "expression levels"
     
     # Core Compositions, if needed
-    coreComp = ""
+    coreComp2 = ""
     #coreComp = "titanium dioxide"
     #coreComp = "silicon dioxide"
     #coreComp = "cerium(iv) oxide"
     #coreComp = "copper(ii) oxide"
     
-    yearPub = ""
+    yearPub2 = ""
     #yearPub = 2014
     #yearPub = 2017
 
-    input_file1 = "data\\not_there.csv"
     input_file2 = "data\\assay_all_vw_out_22325rows.csv"
     output_file = "data\\Multivariate_Imputed_Numerical_Columns.csv"
     
@@ -161,13 +169,7 @@ def tes_refinement4():
     #refinement(assayType, desired_result, coreComp, yearPub, input_file1, output_file)
     
     with pytest.raises(KeyError):
-        assert refinement(assayType1, desired_result2, coreComp, yearPub, input_file2, output_file)
-
-    with pytest.raises(KeyError):
-        assert refinement(assayType2, desired_result1, coreComp, yearPub, input_file2, output_file)
-    #assert df == Null
-    
-    refinement(assayType1, desired_result2, coreComp, yearPub, input_file2, output_file)
+        assert refinement(assayType2, desired_result2, coreComp2, yearPub2, input_file2, output_file)
 
     # Process units
     #assert df['front scatter result_value'][0] == 1.01
