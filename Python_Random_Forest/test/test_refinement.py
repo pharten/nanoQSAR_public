@@ -9,6 +9,7 @@ import pandas as pd
 import math
 from Process_Results_Units import process_results_units
 from Refinement import refinement
+from UtilRecords import read_from_csv
 
 
 def test_refinement1():
@@ -83,11 +84,13 @@ def test_refinement2():
     input_file2 = "data\\assay_all_vw_out_22325rows.csv"
     output_file = "data\\Multivariate_Imputed_Numerical_Columns.csv"
     
-    # Create DataFrame
-    #refinement(assayType, desired_result, coreComp, yearPub, input_file1, output_file)
+    # Read input_file and assert 22325 records
+    df = read_from_csv(input_file2)
+    assert(len(df.index) == 22325)
     
     df = refinement(assayType2, desired_result2, coreComp2, yearPub2, input_file2, output_file)
     
+    # do full refinement for viability and assert 435 records
     assert(len(df.index) == 435)
 
         
