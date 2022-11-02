@@ -42,6 +42,14 @@ def iteratively_impute_numerical_columns(desired_type, df):
         if ('OuterDiameterLow' in column_names and 'OuterDiameterHigh' in column_names):
             df['OuterDiameterLow'] = df['OuterDiameterLow'].fillna(df['OuterDiameterHigh'])
             df['OuterDiameterHigh'] = df['OuterDiameterHigh'].fillna(df['OuterDiameterLow'])
+            
+    # set missing temperature values to default 25C.
+    if ('temperature parameter_value' in column_names):
+        df['temperature parameter_value'] = df['temperature parameter_value'].fillna(value = 25.0) 
+        
+    # set missing fetal bovine additive_value to default 10.0
+    if ("fetal bovine serum additive_value" in column_names):
+        df["fetal bovine serum additive_value"] = df["fetal bovine serum additive_value"].fillna(value = 10.0)      
     
     # Define list with possible parameter columns.
     param_names = ['OuterDiameterValue', 'OuterDiameterLow', 'OuterDiameterHigh',
@@ -71,7 +79,6 @@ def iteratively_impute_numerical_columns(desired_type, df):
     # Extract columns with additive_value
     subs_value = "additive_value"
     additive_columns  = [icol for icol in column_names if subs_value in icol]
-    #additive_columns.remove("fetal bovine serum additive_value")
     
     # Extract columns with contaminant_value 
     subs_value = "contaminant_value"
@@ -133,12 +140,13 @@ def iteratively_impute_numerical_columns(desired_type, df):
     # 4) KNeighborsRegressor: comparable to other KNN imputation approaches
     imputer = IterativeImputer(estimator = BayesianRidge(),
                            #sample_posterior = True,
-                           max_iter = 200,
+                           max_iter = 20,
+                           n_nearest_features = 10,
                            tol = 1.0e-4,
                            random_state = 0, 
                            missing_values = np.nan, 
                            initial_strategy = 'mean',
-                           verbose = 3,
+                           verbose = 0,
                            imputation_order = 'descending',
                            min_value = minimum_values,
                            max_value = maximum_values)
