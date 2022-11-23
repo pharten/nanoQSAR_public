@@ -30,18 +30,13 @@ def iteratively_impute_numerical_columns(desired_type, df):
     # Extract column names
     column_names = list(df.columns)
     
-    # Use other OuterDiameter values
-    if ('OuterDiameterValue' in column_names):
-        if ('OuterDiameterLow' in column_names):
-            df['OuterDiameterLow'] = df['OuterDiameterLow'].fillna(df['OuterDiameterValue'])
-        if ('OuterDiameterHigh' in column_names):    
-            df['OuterDiameterHigh'] = df['OuterDiameterHigh'].fillna(df['OuterDiameterValue'])
-        if ('OuterDiameterLow' in column_names and 'OuterDiameterHigh' in column_names):
-            df['OuterDiameterValue'] = df['OuterDiameterValue'].fillna(0.5*(df['OuterDiameterLow']+df['OuterDiameterHigh']))
-    else:
-        if ('OuterDiameterLow' in column_names and 'OuterDiameterHigh' in column_names):
-            df['OuterDiameterLow'] = df['OuterDiameterLow'].fillna(df['OuterDiameterHigh'])
-            df['OuterDiameterHigh'] = df['OuterDiameterHigh'].fillna(df['OuterDiameterLow'])
+    replaceRange(df, column_names, 'OuterDiameterLow', 'OuterDiameterValue', 'OuterDiameterHigh')
+    
+    replaceRange(df, column_names, 'SurfaceAreaLow', 'SurfaceAreaValue', 'SurfaceAreaHigh')
+    
+    replaceRange(df, column_names, 'HydrodynamicDiameterLow', 'HydrodynamicDiameterValue', 'HydrodynamicDiameterHigh')
+        
+    replaceRange(df, column_names, 'ChargeLow', 'ChargeAvg', 'ChargeHigh')
             
     # set missing temperature values to default 25C.
     if ('temperature parameter_value' in column_names):
@@ -52,9 +47,11 @@ def iteratively_impute_numerical_columns(desired_type, df):
         df["fetal bovine serum additive_value"] = df["fetal bovine serum additive_value"].fillna(value = 10.0)      
     
     # Define list with possible parameter columns.
-    param_names = ['OuterDiameterValue', 'OuterDiameterLow', 'OuterDiameterHigh',
-                    'SurfaceAreaValue', 
-                    'Purity', 'HydrodynamicDiameterValue', 'ChargeAvg', 
+    param_names = ['OuterDiameterValue','OuterDiameterLow', 'OuterDiameterHigh',
+                    'SurfaceAreaValue', 'SurfaceAreaLow', 'SurfaceAreaHigh',
+                    'Purity', 
+                    'HydrodynamicDiameterValue', 'HydrodynamicDiameterLow', 'HydrodynamicDiameterHigh',
+                    'ChargeAvg', 'ChargeLow', 'ChargeHigh', 
                     'particle concentration parameter_value','duration incubation parameter_value', 
                     'duration exposure parameter_value',
                     'duration aging parameter_value', 'duration irradiation parameter_value',  
@@ -87,6 +84,8 @@ def iteratively_impute_numerical_columns(desired_type, df):
     categorical_columns = []
     # Extract encoded categorical data
     cat_patterns = ['CoreComposition', 'ShellComposition', 'CoatingComposition', 'Shape', 'SurfaceChargeType',
+                    # year of publication is not needed past this point
+                    #'year',
                     'particle concentration parameter_nonnum', 'cell type parameter_nonnum',
                     'subject parameter_nonnum', 'light parameter_nonnum',
                     'biochemical name parameter_nonnum', 'subpathway parameter_nonnum']
@@ -97,18 +96,19 @@ def iteratively_impute_numerical_columns(desired_type, df):
         categorical_columns = categorical_columns + encoded_columns
     
     # Add all columns to be used in the iterative imputation algorithm to a single list.
-    total_cols = categorical_columns + param_columns + param_conc_columns + additive_columns + contaminant_columns
+    no_results_cols = categorical_columns + param_columns + param_conc_columns + additive_columns + contaminant_columns
     
     # Extract results columns and store them in a separate DataFrame
-    subs_value = "result_value"
+    subs_value = "result_"
     result_columns  = [icol for icol in column_names if subs_value in icol]
     desired_columns = []
-    for icol in result_columns:
+    result_columns2 = result_columns.copy()
+    for icol in result_columns2:
         if desired_type in icol:
             result_columns.remove(icol)
             desired_columns.append(icol)
         
-    total_cols = total_cols + result_columns
+    total_cols = no_results_cols + result_columns
     
     # Make a copy of the DataFrame with the chosen columns.
     df_temp = df[total_cols].copy()
@@ -161,4 +161,24 @@ def iteratively_impute_numerical_columns(desired_type, df):
     #df_combined = pd.concat([df_temp, df_desired], axis = 1)
     
     return df_combined
+
+def replaceRange(df, column_names, low, med, high):
+# Use other OuterDiameter values
+    if (med in column_names):
+        if (low in column_names):
+            df[low] = df[low].fillna(df[med])
+        if (high in column_names):
+            df[high] = df[high].fillna(df[med])
+        if (low in column_names and high in column_names):
+            df[med] = df[med].fillna(0.5 * (df[low] + df[high]))
+        if (low in column_names):
+            df.drop(low, axis=1, inplace=True)
+            column_names.remove(low)
+        if (high in column_names):
+            df.drop(high, axis=1, inplace=True)
+            column_names.remove(high)
+    elif (low in column_names and high in column_names):
+        df[low] = df[low].fillna(df[high])
+        df[high] = df[high].fillna(df[low])
+
 
