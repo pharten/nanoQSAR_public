@@ -96,7 +96,7 @@ def iteratively_impute_numerical_columns(desired_type, df):
         categorical_columns = categorical_columns + encoded_columns
     
     # Add all columns to be used in the iterative imputation algorithm to a single list.
-    no_results_cols = categorical_columns + param_columns + param_conc_columns + additive_columns + contaminant_columns
+    no_result_cols = categorical_columns + param_columns + param_conc_columns + additive_columns + contaminant_columns
     
     # Extract results columns and store them in a separate DataFrame
     subs_value = "result_"
@@ -108,7 +108,7 @@ def iteratively_impute_numerical_columns(desired_type, df):
             result_columns.remove(icol)
             desired_columns.append(icol)
         
-    total_cols = no_results_cols + result_columns
+    total_cols = no_result_cols + result_columns
     
     # Make a copy of the DataFrame with the chosen columns.
     df_temp = df[total_cols].copy()
@@ -156,8 +156,11 @@ def iteratively_impute_numerical_columns(desired_type, df):
     # Create DataFrame with the imputed missing data.
     df_imputed = pd.DataFrame(data=imputed, columns = total_cols)
     
+    # keep only no_result_cols of imputed data
+    df_keep = df_imputed[no_result_cols]
+    
     # Combine imputed DataFrame with desired result as last column
-    df_combined = pd.concat([df_imputed, df_desired], axis = 1)
+    df_combined = pd.concat([df_keep, df_desired], axis = 1)
     #df_combined = pd.concat([df_temp, df_desired], axis = 1)
     
     return df_combined
