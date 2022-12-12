@@ -41,20 +41,19 @@ def test_refinement1():
     
     # Test exceptions
     with pytest.raises(FileNotFoundError):
-        df = refinement(assayType2, desired_result2, coreComp2, yearPub2, input_file1, output_file)
-        assert df
+        assert refinement(assayType2, desired_result2, coreComp2, yearPub2, input_file1, output_file)
         
     with pytest.raises(ValueError):
         assert refinement(assayType1, desired_result2, coreComp2, yearPub2, input_file2, output_file)
 
-    with pytest.raises(ValueError):
-        assert refinement(assayType2, desired_result1, coreComp2, yearPub2, input_file2, output_file)
+    #with pytest.raises(ValueError):
+    #    assert refinement(assayType2, desired_result1, coreComp2, yearPub2, input_file2, output_file)
     
-    with pytest.raises(ValueError):
-        assert refinement(assayType2, desired_result2, coreComp1, yearPub2, input_file2, output_file)
+    #with pytest.raises(ValueError):
+    #    assert refinement(assayType2, desired_result2, coreComp1, yearPub2, input_file2, output_file)
     
-    with pytest.raises(ValueError):
-        assert refinement(assayType2, desired_result2, coreComp2, yearPub1, input_file2, output_file)
+    #with pytest.raises(ValueError):
+    #    assert refinement(assayType2, desired_result2, coreComp2, yearPub1, input_file2, output_file)
     
     #assert len(df.index) == 22325
     # Process units
@@ -88,9 +87,8 @@ def test_refinement2():
     df = read_from_csv(input_file2)
     assert(len(df.index) == 22325)
     
-    df = refinement(assayType2, desired_result2, coreComp2, yearPub2, input_file2, output_file)
-    
     # do full refinement for viability and assert 435 records
+    df = refinement(assayType2, desired_result2, coreComp2, yearPub2, input_file2, output_file)
     assert(len(df.index) == 435)
 
         
