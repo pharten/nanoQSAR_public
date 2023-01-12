@@ -18,8 +18,8 @@ from RandomForest_Regression import perform_RandomForest_regression
 import RandomForestAnalysis
 
 def main():
-    #desired_result = "viability"
-    desired_result = "expression levels"
+    desired_result = "viability"
+    #desired_result = "expression levels"
 
     # input_Imputed_Values = "..\\data\\Imputed_Numerical_Columns.csv"
     input_Imputed_Values = "..\\data\\Multivariate_Imputed_Numerical_Columns.csv" 

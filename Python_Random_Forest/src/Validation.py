@@ -20,8 +20,8 @@ from tokenize import Double
 from _operator import index
 
 def main():
-    #desired_result = "viability"
-    desired_result = "expression levels"
+    desired_result = "viability"
+    #desired_result = "expression levels"
 
     # input_Imputed_Values = "..\\data\\Imputed_Numerical_Columns.csv"
     input_Imputed_Values = "..\\data\\Multivariate_Imputed_Numerical_Columns.csv" 
