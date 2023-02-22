@@ -85,7 +85,9 @@ def main():
         print(" r2_train = %f, r2_test = %f" % (r2_train[index], r2_test[index] ))
         index += 1
 
-    print(" r2_train = %f +/- %f, r2_test = %f +/- %f" % (r2_train.mean(), r2_train.std(), r2_test.mean(), r2_test.std() ))
+    print(" r2_train = %f +/- %f, r2_test = %f +/- %f" % (r2_train.mean(), r2_train.std(), r2_test.mean(), r2_test.std()))
+    
+    print ("\n",cross_val_score(rfa, X, y))
 
     """
     rfa.fit(X, y)
