@@ -66,7 +66,7 @@ def tes_refinement1():
     #assert df['front scatter result_value'][1] == 0.9
     #assert df['front scatter result_value'][2] == 0.78
 
-def tes_refinement2():
+def test_refinement2():
     
     input_file = "data\\assay_all_vw_out_22325rows.csv"
     
@@ -85,12 +85,27 @@ def tes_refinement2():
     print(len(df.index))
     assert(len(df.index) == 2417)
     
-        # initial processes only, translate concatenated data
+    # initial processes only, translate concatenated data
     df = deconcatenationProcess(input_file, "in silico")
     print(len(df.index))
     assert(len(df.index) == 915)
+    
+    # initial processes only, translate concatenated data
+    #df = deconcatenationProcess(input_file, "life cycle")
+    #print(len(df.index))
+    #assert(len(df.index) == 8882)
+    
+    # initial processes only, translate concatenated data
+    #df = deconcatenationProcess(input_file, "chemical charcterization")
+    #print(len(df.index))
+    #assert(len(df.index) == 509)
+    
+    # initial processes only, translate concatenated data
+    df = deconcatenationProcess(input_file, "physical characterization")
+    print(len(df.index))
+    assert(len(df.index) == 3530)
 
-def test_refinement3():
+def tes_refinement3():
     
     input_file = "data\\assay_all_vw_out_22325rows.csv"
     output_file = "data\\assay_all_vw_out_22325rows2.csv"
