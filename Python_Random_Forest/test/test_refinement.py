@@ -91,24 +91,24 @@ def test_refinement2():
     assert(len(df.index) == 915)
     
     # initial processes only, translate concatenated data
-    #df = deconcatenationProcess(input_file, "life cycle")
-    #print(len(df.index))
-    #assert(len(df.index) == 8882)
+    df = deconcatenationProcess(input_file, "life cycle")
+    print(len(df.index))
+    assert(len(df.index) == 8882)
     
     # initial processes only, translate concatenated data
-    #df = deconcatenationProcess(input_file, "chemical charcterization")
-    #print(len(df.index))
-    #assert(len(df.index) == 509)
+    df = deconcatenationProcess(input_file, "chemical characterization")
+    print(len(df.index))
+    assert(len(df.index) == 509)
     
     # initial processes only, translate concatenated data
     df = deconcatenationProcess(input_file, "physical characterization")
     print(len(df.index))
     assert(len(df.index) == 3530)
 
-def tes_refinement3():
+def test_refinement3():
     
     input_file = "data\\assay_all_vw_out_22325rows.csv"
-    output_file = "data\\assay_all_vw_out_22325rows2.csv"
+    #output_file = "data\\assay_all_vw_out_22325rows2.csv"
     
     # Read input_file and assert 22325 records
     df = read_from_csv(input_file)
@@ -119,15 +119,10 @@ def tes_refinement3():
     
     columns_multicode = ["assayType"]
     df_multicat = df[columns_multicode]
-    original_headers_multicat = list(df_multicat.columns)
-    #print(original_headers_multicat)
     
     #print(df_multicat)
     # Create imputation transformer for completing missing values.
     imp_missing = SimpleImputer(missing_values = None, strategy = 'constant', fill_value = 'missing')
-    
-    # Drop categorical data
-    df_num = df.drop(columns_multicode, inplace = False, axis = 1)
 
     multicat_array = df_multicat.to_numpy()
     imp_array = imp_missing.fit_transform(multicat_array)
@@ -142,7 +137,6 @@ def tes_refinement3():
     #categories = multicoder.categories_
     print (classes)
     print (len(classes))
-    print (imp_array.shape)
     
     countEachLabel(imp_array, classes)
     
@@ -152,12 +146,15 @@ def tes_refinement3():
         
     # Create DataFrame with the transformed categorical data.
     df2 = pd.DataFrame(data = trans_X_multicat_array, columns = columns_multicode)
+    
+    print(len(df2.index))
+    
+    assert(len(df2.index) == 22325)
+    
     # Combine the Ordinal encoded categorical data with the numerical data.
-    dfnew = pd.concat([df2, df_num], axis = 1)
+    df[columns_multicode] = df2[columns_multicode]
     
-    print(len(dfnew.index))
-    
-    assert(False)
+
 
 
 def tes_refinement4():
