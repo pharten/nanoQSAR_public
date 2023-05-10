@@ -69,7 +69,7 @@ class RandomForestAnalysis():
 
         for f in range(len(indices)):
             thisimp = importances[indices[f]]
-            if thisimp > 1.0e-3:
+            if thisimp > 1.0e-2:
                 print("%d) %s \t= %f" % (f,self.train_features[indices[f]],importances[indices[f]]))
 
 
