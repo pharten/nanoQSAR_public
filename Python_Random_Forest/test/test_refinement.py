@@ -105,7 +105,7 @@ def test_refinement2():
     print(len(df.index))
     assert(len(df.index) == 3530)
 
-def test_refinement3():
+def tes_refinement3():
     
     input_file = "data\\assay_all_vw_out_22325rows.csv"
     #output_file = "data\\assay_all_vw_out_22325rows2.csv"
