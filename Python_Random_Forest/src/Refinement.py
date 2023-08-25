@@ -41,8 +41,8 @@ def main():
     #yearPub = 2014
     #yearPub = 2017
 
-    input_file = "data\\assay_all_vw_out_22325rows.csv"
-    output_file = "data\\Multivariate_Imputed_Numerical_Columns.csv"
+    input_file = "..\\data\\assay_all_vw_out_22325rows.csv"
+    output_file = "..\\data\\Multivariate_Imputed_Numerical_Columns.csv"
     
     df = refinement(assayType, desired_result, coreComp, yearPub, input_file, output_file)
     #print(len(df.index))

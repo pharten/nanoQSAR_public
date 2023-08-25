@@ -37,9 +37,9 @@ def test_refinement1():
     #yearPub = 2014
     #yearPub = 2017
 
-    input_file1 = "data\\not_there.csv"
-    input_file2 = "data\\assay_all_vw_out_22325rows.csv"
-    output_file = "data\\Multivariate_Imputed_Numerical_Columns.csv"
+    input_file1 = "..\\data\\not_there.csv"
+    input_file2 = "..\\data\\assay_all_vw_out_22325rows.csv"
+    output_file = "..\\data\\Multivariate_Imputed_Numerical_Columns.csv"
     
     # Test exceptions
     with pytest.raises(FileNotFoundError):
@@ -68,7 +68,7 @@ def test_refinement1():
 
 def test_refinement2():
     
-    input_file = "data\\assay_all_vw_out_22325rows.csv"
+    input_file = "..\\data\\assay_all_vw_out_22325rows.csv"
     
         # Read input_file and assert 22325 records
     df = read_from_csv(input_file)
@@ -109,7 +109,7 @@ def test_refinement2():
 
 def test_refinement3():
     
-    input_file = "data\\assay_all_vw_out_22325rows.csv"
+    input_file = "..\\data\\assay_all_vw_out_22325rows.csv"
     #output_file = "data\\assay_all_vw_out_22325rows2.csv"
     
     # Read input_file and assert 22325 records
@@ -177,8 +177,8 @@ def test_refinement4():
     #yearPub = 2014
     #yearPub = 2017
 
-    input_file2 = "data\\assay_all_vw_out_22325rows.csv"
-    output_file = "data\\Multivariate_Imputed_Numerical_Columns.csv"
+    input_file2 = "..\\data\\assay_all_vw_out_22325rows.csv"
+    output_file = "..\\data\\Multivariate_Imputed_Numerical_Columns.csv"
     
     # do full refinement for viability and assert 435 records
     df = refinement(assayType2, desired_result2, coreComp2, yearPub2, input_file2, output_file)
@@ -202,8 +202,8 @@ def test_refinement5():
     #yearPub = 2014
     #yearPub = 2017
 
-    input_file = "data\\assay_all_vw_out_22325rows.csv"
-    output_file = "data\\Multivariate_Imputed_Numerical_Columns.csv"
+    input_file = "..\\data\\assay_all_vw_out_22325rows.csv"
+    output_file = "..\\data\\Multivariate_Imputed_Numerical_Columns.csv"
     
     # do full refinement for viability and assert 435 records
     df = refinement(assayType, desired_result, coreComp, yearPub, input_file, output_file)
@@ -230,9 +230,9 @@ def tes_refinement6():
     #yearPub = 2014
     #yearPub = 2017
 
-    input_file1 = "data\\not_there.csv"
-    input_file2 = "data\\assay_all_vw_out_22325rows.csv"
-    output_file = "data\\Multivariate_Imputed_Numerical_Columns.csv"
+    input_file1 = "..\\data\\not_there.csv"
+    input_file2 = "..\\data\\assay_all_vw_out_22325rows.csv"
+    output_file = "..\\data\\Multivariate_Imputed_Numerical_Columns.csv"
     
     # Create DataFrame
     #refinement(assayType, desired_result, coreComp, yearPub, input_file1, output_file)
@@ -280,8 +280,8 @@ def tes_refinement7():
     #yearPub = 2014
     #yearPub = 2017
 
-    input_file2 = "data\\assay_all_vw_out_22325rows.csv"
-    output_file = "data\\Multivariate_Imputed_Numerical_Columns.csv"
+    input_file2 = "..\\data\\assay_all_vw_out_22325rows.csv"
+    output_file = "..\\data\\Multivariate_Imputed_Numerical_Columns.csv"
     
     # Create DataFrame
     #refinement(assayType, desired_result, coreComp, yearPub, input_file1, output_file)
