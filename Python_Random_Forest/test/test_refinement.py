@@ -14,7 +14,7 @@ from DeconcatenationProcess import deconcatenationProcess
 from sklearn.preprocessing import LabelEncoder, OrdinalEncoder
 from sklearn.impute import SimpleImputer
 
-def tes_refinement1():
+def test_refinement1():
     # Create data
     
     assayType1 = "nego in vitro"
@@ -104,8 +104,10 @@ def test_refinement2():
     df = deconcatenationProcess(input_file, "physical characterization")
     print(len(df.index))
     assert(len(df.index) == 3530)
+    
+    return
 
-def tes_refinement3():
+def test_refinement3():
     
     input_file = "data\\assay_all_vw_out_22325rows.csv"
     #output_file = "data\\assay_all_vw_out_22325rows2.csv"
@@ -131,7 +133,7 @@ def tes_refinement3():
     # Encode the categorical data using the OrdinalEncoder
     #multicoder = OrdinalEncoder(handle_unknown='use_encoded_value', unknown_value=-1)
     multicoder = LabelEncoder()
-    multicoder.fit(imp_array)
+    multicoder.fit(imp_array[:,0])
     
     classes = multicoder.classes_
     #categories = multicoder.categories_
@@ -142,7 +144,7 @@ def tes_refinement3():
     
     #assert(False)
     
-    trans_X_multicat_array = multicoder.transform(imp_array)
+    trans_X_multicat_array = multicoder.transform(imp_array[:,0])
         
     # Create DataFrame with the transformed categorical data.
     df2 = pd.DataFrame(data = trans_X_multicat_array, columns = columns_multicode)
@@ -154,10 +156,9 @@ def tes_refinement3():
     # Combine the Ordinal encoded categorical data with the numerical data.
     df[columns_multicode] = df2[columns_multicode]
     
+    return
 
-
-
-def tes_refinement4():
+def test_refinement4():
     # Create data
     
     assayType2 = "in vitro"
@@ -183,7 +184,7 @@ def tes_refinement4():
     df = refinement(assayType2, desired_result2, coreComp2, yearPub2, input_file2, output_file)
     assert(len(df.index) == 435)
 
-def tes_refinement5():
+def test_refinement5():
     # Create data
     
     assayType = "in vitro"
