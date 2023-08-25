@@ -59,8 +59,14 @@ def split_parameters_fields(df):
                 if (df[list_param[icol]].iloc[irow] == None):               
                     continue            
                 else:
+                    parameter = df[list_param[icol]].iloc[irow]
+                    list_str = parameter.split(":",6)
                     
-                    list_str = df[list_param[icol]].iloc[irow].split(":")
+                    if (len(list_str) == 6):
+                        if (list_str[4] != '' and list_str[5] != ''): # assume : is in nonnum
+                            list_str = [list_str[0], list_str[1], list_str[2], list_str[3], list_str[4]+':'+list_str[5]]
+                        else:
+                            list_str = [list_str[0], list_str[1]+':'+list_str[2], list_str[3], list_str[4], list_str[5]]
                     
                     # If parameter name was not present, throw an exception.
                     if (list_str[1] == ''):
