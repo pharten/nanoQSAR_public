@@ -47,7 +47,7 @@ def main():
     #X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.20, random_state = 37)
     # scramble arrays X and y
 
-    random.seed(17)
+    random.seed(0)
     n = len(yFull)
     for i in range(n):
         ranint = random.randint(0,n-1)
@@ -58,6 +58,7 @@ def main():
         yFull[i] = yFull[ranint]
         yFull[ranint] = elem
 
+    """
     ns = 6
     n = len(yFull)
     nsplit = int(n*((ns-1)/ns))
@@ -67,9 +68,12 @@ def main():
     y = yFull[0:nsplit]
     XSave = XFull[nsplit:n]
     ySave = yFull[nsplit:n]
+    """
+    X = XFull
+    y = yFull
     
     index = 0
-    ns = ns-1
+    ns = 5
     r2_train = numpy.zeros(ns)
     r2_test = numpy.zeros(ns)
     kf = KFold(n_splits=ns, shuffle=False)
@@ -81,12 +85,16 @@ def main():
         print(" r2_train = %f, r2_test = %f" % (r2_train[index], r2_test[index] ))
         index += 1
 
-    print(" r2_train = %f +/- %f, r2_test = %f +/- %f" % (r2_train.mean(), r2_train.std(), r2_test.mean(), r2_test.std() ))
+    print(" r2_train = %f +/- %f, r2_test = %f +/- %f" % (r2_train.mean(), r2_train.std(), r2_test.mean(), r2_test.std()))
+    
+    print ("\n",cross_val_score(rfa, X, y, cv=ns))
 
+    """
     rfa.fit(X, y)
     r2_trains = rfa.score(X, y)
     r2_save = rfa.score(XSave, ySave)
     print("\n r2_trains = %f, r2_save = %f" % (r2_trains, r2_save ))
+    """
     
 if __name__ == "__main__":
     main()

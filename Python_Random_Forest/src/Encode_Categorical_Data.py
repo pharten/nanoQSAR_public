@@ -7,7 +7,8 @@ Created on Feb 11, 2021
 import pandas as pd
 from sklearn.preprocessing import OneHotEncoder, OrdinalEncoder
 from sklearn.impute import SimpleImputer
-from Write_to_CSV import write_to_csv
+#from Write_to_CSV import write_to_csv
+from UtilRecords import read_from_csv, write_to_csv, delete_columns_with_all_equal_values
 from pickle import FALSE
 
 def encode_categorical_columns(df):

@@ -9,6 +9,7 @@ Created on Oct 29, 2020
 
 from DeconcatenationProcess import deconcatenationProcess
 from MiddleProcesses import middleProcesses
+from FinalProcesses import finalProcesses
 #from Replace_Null_with_None import replace_null_with_none
 #from Write_to_CSV import write_to_csv
 #from Delete_Concatenated_Columns import delete_concatenated_columns
@@ -21,8 +22,7 @@ from Encode_Categorical_Data import encode_categorical_columns
 #from Delete_Unwanted_Columns import delete_unwanted_columns
 from Impute_Numerical_Columns import impute_missing_data_of_numerical_columns
 from Perform_Multivariate_Imputation import iteratively_impute_numerical_columns
-from UtilRecords import read_from_csv, write_to_csv, delete_columns_with_all_equal_values
-import pandas
+from UtilRecords import write_to_csv, remove
 
 def main():
     assayType = "in vitro"
@@ -42,92 +42,36 @@ def main():
     #yearPub = 2017
 
     input_file = "..\\data\\assay_all_vw_out_22325rows.csv"
-    output_DifferentValues = "data\\inVitro_Columns_with_Different_Values.csv"
-    output_ProcessedData = "data\\InVitro_ProcessedData.csv"
+    output_file = "..\\data\\Multivariate_Imputed_Numerical_Columns.csv"
     
-    output_Desired_Rows = "data\\Desired_Results_Rows.csv"
-    output_NonEmptyColumns_Desired_Rows = "data\\Desired_Results_Rows_NonEmptyColumns.csv"
-    output_Multivariate_Imputed_Values = "data\\Multivariate_Imputed_Numerical_Columns.csv"
+    df = refinement(assayType, desired_result, coreComp, yearPub, input_file, output_file)
+    #print(len(df.index))
+
+    print("Refinement Complete")
+
     
+def refinement(assayType, desiredResult, coreComp, yearPub, inputFile, outputFile):
+    
+    # remove output file
+    remove(outputFile)
+        
     # initial processes only, translate concatenated data
-    df = deconcatenationProcess(input_file, assayType)
-    
-    # Delete columns with the same value
-    #df = delete_columns_with_all_equal_values(df)
-    
-    # Write DataFrame to a CSV file.
-    #write_to_csv(df, output_DifferentValues)
-    
-    # Read CSV file back into the program.
-    #df = read_from_csv(output_DifferentValues)
+    df = deconcatenationProcess(inputFile, assayType)
+    if (len(df.index)==0): return df
     
     # middle processes only, translate units into most common
-    df = middleProcesses(desired_result, coreComp, yearPub, df)
-    
-    # Write DataFrame processed data
-    #write_to_csv(df, output_ProcessedData)
-    
-    # Encode categorical data
-    df = encode_categorical_columns(df)
+    df = middleProcesses(desiredResult, coreComp, yearPub, df)
+    if (len(df.index)==0): return df
 
-    # Extract only the rows with viability results
-    #df = extract_desired_rows(desired_result, coreComp, yearPub, df)
-    
-    # Write DataFrame to CSV file.
-    #write_to_csv(df, output_Desired_Rows)
-    
-    # Delete columns with the same value
-    df = delete_columns_with_all_equal_values(df)
-    
-    # Delete columns with the same value
-    df = delete_columns_with_units(df)
-    
-    # Write DataFrame to CSV file
-    #write_to_csv(df, output_NonEmptyColumns_Desired_Rows)
-    
-    # Impute missing data of numerical columns.
-    # df = impute_missing_data_of_numerical_columns(df)
-    df = iteratively_impute_numerical_columns(desired_result, df)
+    # final processes only, translate units into most common
+    df = finalProcesses(desiredResult, df)
+    if (len(df.index)==0): return df
     
     # Write imputed DataFrame to a CSV file
-    # write_to_csv(df, output_Imputed_Values)
-    write_to_csv(df, output_Multivariate_Imputed_Values)
-    
-    print("Refinement Complete")
-    
-def extract_desired_rows(desired_result, coreComp, yearPub, df):
-    column_name = desired_result+" result_value"
-    
-    #df1 = df.iloc[2062:2333].loc[df[column_name].isna() == False]
-    df1 = df.loc[df[column_name].isna() == False]
-    
-    # Reset the rows indices.
-    df1 = df1.reset_index(level = 0, drop = True)
-    
-    if desired_result=="expression levels":
-        df2 = df1.loc[df1[column_name]<10.0]
-        df2 = df2.reset_index(level = 0, drop = True)
-        if coreComp == "":
-            df1 = df2
-        else:
-            column_name = "CoreComposition_" + coreComp
-            df2 = df2.loc[df2[column_name]==1]
-            df2 = df2.reset_index(level = 0, drop = True)
-            df1 = df2
-            
-    if yearPub != "":
-        df1 = df1.loc[df1["year"]==yearPub]
-        df1 = df1.reset_index(level = 0, drop = True)
-    
-    return df1
-
-def delete_columns_with_units(df):
-
-    for column in df:
-        if ("_unit" in column or "Unit" in column):
-            df.drop(column, axis = 1, inplace = True)
+    write_to_csv(df, outputFile)
 
     return df
+
 
 if __name__ == "__main__":
     main()

@@ -18,15 +18,17 @@ def deconcatenationProcess(input_file, assayType):
     3) eliminates the concatenated fields
     '''
     
-    invitro_output = "data\\inVitro_Rows.csv"
-    output_file = "data\\assay_all_vw_out_inVitro.csv"
-    output_NoConcatenatedFields = "data\\inVitro_No_Concatenated_Fields.csv"
+    invitro_output = "..\\data\\inVitro_Rows.csv"
+    output_file = "..\\data\\assay_all_vw_out_inVitro.csv"
+    output_NoConcatenatedFields = "..\\data\\inVitro_No_Concatenated_Fields.csv"
         
     # Read from CSV file.  
     df = read_from_csv(input_file)
+    if (len(df.index)==0): return df
     
     # Select in vitro rows
     df = select_AssayType_rows(df, assayType)
+    if (len(df.index)==0): return df
         
     # Write inVitro rows to output
     #write_to_csv(df, invitro_output)

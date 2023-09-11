@@ -63,7 +63,13 @@ def split_result_fields(df):
                 if (df[list_results[icol]].iloc[irow] == None):
                     continue
                 else:
-                    list_str = df[list_results[icol]].iloc[irow].split(":")
+                    result = df[list_results[icol]].iloc[irow]
+                    list_str = result.split(":",10)
+                    
+                    if (len(list_str)==10): # Assume ':' problem is in detail field
+                        list_str = [list_str[0],list_str[1],list_str[2]+':'+list_str[3],list_str[4],
+                                    list_str[5],list_str[6],list_str[7],list_str[8],list_str[9]]
+                        
                     # If result type was not present, throw an exception.
                     if (list_str[1] == ''):
                         error_message = "Type is missing for result " + list_results[icol] + " at row " + irow
