@@ -18,10 +18,10 @@ def middleProcesses(desired_result, coreComp, yearPub, df):
     2) fix misspellings in categorical values
     3) delete rows not used
     '''
-    output_procesed_units = "data\\inVitro_processed_units.csv"
-    output_post_processed_units = "data\\inVitro_post_processed_units.csv"
-    output_fixedCategoricalData = "data\\inVitro_fixed_categorical.data.csv"
-    output_Desired_Rows = "data\\Desired_Results_Rows.csv"
+    output_procesed_units = "..\\data\\inVitro_processed_units.csv"
+    output_post_processed_units = "..\\data\\inVitro_post_processed_units.csv"
+    output_fixedCategoricalData = "..\\data\\inVitro_fixed_categorical.data.csv"
+    output_Desired_Rows = "..\\data\\Desired_Results_Rows.csv"
     
     # Replace NULL with None.
     df = replace_null_with_none(df)

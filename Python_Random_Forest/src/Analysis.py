@@ -23,10 +23,10 @@ def main():
 
     # input_Imputed_Values = "..\\data\\Imputed_Numerical_Columns.csv"
     input_Imputed_Values = "..\\data\\Multivariate_Imputed_Numerical_Columns.csv" 
-    output_xtrain = "data\\X_Train.csv"
-    output_ytrain = "data\\y_Train.csv"
-    output_xtest = "data\\X_Test.csv"
-    output_ytest = "data\\y_Test.csv"
+    output_xtrain = "..\\data\\X_Train.csv"
+    output_ytrain = "..\\data\\y_Train.csv"
+    output_xtest = "..\\data\\X_Test.csv"
+    output_ytest = "..\\data\\y_Test.csv"
     
     # Read X and Y matrices from CSV files.
     df = pd.read_csv(input_Imputed_Values, na_values = "NULL", skip_blank_lines = False, 

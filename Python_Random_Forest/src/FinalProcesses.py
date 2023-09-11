@@ -16,10 +16,10 @@ def finalProcesses(desired_result, df):
     3) delete columns with unit notation
     4) iteratively impute values in numerical columns
     '''
-    output_DifferentValues = "data\\inVitro_Columns_with_Different_Values.csv"
-    output_ProcessedData = "data\\InVitro_ProcessedData.csv"
-    output_Desired_Rows = "data\\Desired_Results_Rows.csv"
-    output_NonEmptyColumns_Desired_Rows = "data\\Desired_Results_Rows_NonEmptyColumns.csv"
+    output_DifferentValues = "..\\data\\inVitro_Columns_with_Different_Values.csv"
+    output_ProcessedData = "..\\data\\InVitro_ProcessedData.csv"
+    output_Desired_Rows = "..\\data\\Desired_Results_Rows.csv"
+    output_NonEmptyColumns_Desired_Rows = "..\\data\\Desired_Results_Rows_NonEmptyColumns.csv"
     
     # Encode categorical data
     df = encode_categorical_columns(df)
