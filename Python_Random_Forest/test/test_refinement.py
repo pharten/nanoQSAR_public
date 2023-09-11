@@ -128,7 +128,7 @@ def test_refinement3():
 
     multicat_array = df_multicat.to_numpy()
     imp_array = imp_missing.fit_transform(multicat_array)
-    print (imp_array.shape)
+    #print (imp_array.shape)
 
     # Encode the categorical data using the OrdinalEncoder
     #multicoder = OrdinalEncoder(handle_unknown='use_encoded_value', unknown_value=-1)
@@ -137,8 +137,8 @@ def test_refinement3():
     
     classes = multicoder.classes_
     #categories = multicoder.categories_
-    print (classes)
-    print (len(classes))
+    #print (classes)
+    #print (len(classes))
     
     countEachLabel(imp_array, classes)
     
@@ -149,7 +149,7 @@ def test_refinement3():
     # Create DataFrame with the transformed categorical data.
     df2 = pd.DataFrame(data = trans_X_multicat_array, columns = columns_multicode)
     
-    print(len(df2.index))
+    #print(len(df2.index))
     
     assert(len(df2.index) == 22325)
     
